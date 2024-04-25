@@ -1,1 +1,1 @@
-readme file 0x00-pascal_triangle
+read me file fro alx intervie projects
