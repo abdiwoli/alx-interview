@@ -1,1 +1,1 @@
-read me file fro alx intervie projects
+readme file for alx interview 0x01-lockboxes
