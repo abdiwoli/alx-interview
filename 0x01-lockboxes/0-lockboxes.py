@@ -19,8 +19,10 @@ def canUnlockAll(boxes):
     for idx in arr:
         try:
             opened.append(boxes[idx])
-        except:
+        except IndexError:
             pass
+    if opened == boxes:
+        return True
     for i in opened:
         boxes.remove(i)
     return len(boxes) == 0
