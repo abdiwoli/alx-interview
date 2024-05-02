@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+""" import module """
+
+flag = True
+def canUnlockAll(boxes):
+    """ ulock boxes """
+
+    if (type(boxes)) is not list:
+        return False
+
+    if (flag):
+        box = boxes[0]
+        flag = False
+    else:
+        box = 
+                
+        
+        
