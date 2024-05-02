@@ -16,7 +16,7 @@ def canUnlockAll(boxes):
         for i in box:
             if i < ln:
                 opened.add(i)
-    print(opened)
+
     if len(opened) == ln:
         return True
     return False
