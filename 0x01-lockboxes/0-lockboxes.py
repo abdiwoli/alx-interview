@@ -9,7 +9,7 @@ def canUnlockAll(boxes):
     opened = set()
     opened.add(0)
     if ln <= 0:
-        return False
+        return True
     for box in boxes:
         if (not box):
             break
