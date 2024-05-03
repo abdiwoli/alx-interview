@@ -14,10 +14,6 @@ def canUnlockAll(boxes):
         for el in box:
             if el not in arr and el != n:
                 arr.append(el)
-        if not box:
-            if n < len(boxes) - 1:
-                return False
-            break
     for idx in arr:
         try:
             opened.append(boxes[idx])
