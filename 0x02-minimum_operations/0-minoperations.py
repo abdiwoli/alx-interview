@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" interview """
+""" interview task """
 
 
 def minOperations(n):
