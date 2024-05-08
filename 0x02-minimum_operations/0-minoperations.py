@@ -4,11 +4,13 @@
 
 def minOperations(n):
     """ min operations"""
-    text = "H"
-    op = ["copy", "paste"]
+    text = "H" * n
     count = 0
-    for i, o in enumerate(op):
-        if o == "paste":
-            text += text
-        if len(text) == n:
-            return i
+    flag = 0
+    while(len(text) > 1):
+        ln = len(text)
+        if ln % 2 == 1:
+            flag = 1
+        text = text[:ln // 2]
+        count += 2
+    return count + flag
