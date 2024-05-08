@@ -3,16 +3,11 @@
 
 
 def minOperations(n):
-    """ min operations"""
-    text = "H" * n
-    count = 0
-    flag = 0
-    while(len(text) > 1):
-        ln = len(text)
-        if ln % 2 == 1:
-            flag = 1
-        text = text[:ln // 2]
-        count += 2
-    if (flag and n % 2 == 0):
-        return count + 1
-    return count
+    """ get minimum operations """
+    if n <= 1:
+        return 0
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return i + minOperations(n // i)
+
+    return n
