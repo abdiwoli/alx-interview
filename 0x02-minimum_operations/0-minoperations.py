@@ -13,4 +13,8 @@ def minOperations(n):
             flag = 1
         text = text[:ln // 2]
         count += 2
-    return count + flag
+    if (flag and n%2==0):
+        return count + 1
+    return count
+
+print(minOperations(12))
