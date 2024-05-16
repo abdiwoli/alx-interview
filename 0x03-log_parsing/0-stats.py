@@ -36,11 +36,11 @@ if __name__ == "__main__":
     try:
         for line in sys.stdin:
             key, size = is_valid(line.strip())
+            line_count += 1
             if key and size:
                 val = status.get(key, 0)
                 status[key] = val + 1
                 total_size.append(size)
-                line_count += 1
             if line_count == 10:
                 print_out(total_size, status)
                 status.clear()
