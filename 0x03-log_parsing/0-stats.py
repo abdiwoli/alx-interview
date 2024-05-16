@@ -43,8 +43,6 @@ if __name__ == "__main__":
                 total_size.append(size)
             if line_count == 10:
                 print_out(total_size, status)
-                status.clear()
-                total_size.clear()
                 line_count = 0
 
     except KeyboardInterrupt:
