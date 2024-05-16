@@ -1,50 +1,51 @@
 #!/usr/bin/python3
-""" Log Parsing Script """
+""" std parsing """
 import re
 import sys
 
 
-def parse_line(line):
-    """ Parse a log line and extract relevant information """
+def is_valid(input_string):
+    """ is valid input """
     pattern = (
         r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[(.*?)\] '
-        r'"GET /projects/260 HTTP/1\.1" (\d{3}) (\d+)$'
-    )
-    match = re.match(pattern, line)
+        r'"GET /projects/260 HTTP/1\.1" (\d{3}) (\d+)$')
+    regex = re.compile(pattern)
+    match = regex.match(input_string)
     if match:
-        return int(match.group(3)), int(match.group(4))
+        try:
+            status_code = int(match.group(3))
+            file_size = int(match.group(4))
+        except TypeError as e:
+            return None, None
+        return status_code, file_size
     else:
         return None, None
 
 
-def print_statistics(total_size, status):
-    """ Print statistics based on total size and status counts """
-    print("Total file size:", sum(total_size))
-    for code, v in sorted(status.items()):
-        if code in [200, 301, 400, 401, 403, 404, 405, 500] and v > 0:
-            print(f"{code}: {status[code]}")
+def print_out(total_size, status):
+    """ print the output """
+    print("File size: {:d}".format(sum(total_size)))
+    for k, v in sorted(status.items()):
+        print(f"{k}: {v}")
 
 
 if __name__ == "__main__":
-    status = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0}
+    status = dict()
     total_size = []
     line_count = 0
-
     try:
         for line in sys.stdin:
-            line = line.strip()
-            status_code, file_size = parse_line(line)
-            if status_code is not None:
-                status[status_code] = status.get(status_code, 0) + 1
-                total_size.append(file_size)
+            key, size = is_valid(line.strip())
+            if key and size:
+                val = status.get(key, 0)
+                status[key] = val + 1
+                total_size.append(size)
                 line_count += 1
-
-            if line_count % 10 == 0:
-                print_statistics(total_size, status)
-                status = {200: 0, 301: 0, 400: 0, 401: 0,
-                          403: 0, 404: 0, 405: 0, 500: 0}
-                total_size = []
+            if line_count == 10:
+                print_out(total_size, status)
+                status.clear()
+                total_size.clear()
                 line_count = 0
 
     except KeyboardInterrupt:
-        print_statistics(total_size, status)
+        print_out(total_size, status)
