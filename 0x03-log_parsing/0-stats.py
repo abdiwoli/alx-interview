@@ -49,3 +49,4 @@ if __name__ == "__main__":
 
     except KeyboardInterrupt:
         print_out(total_size, status)
+        raise
