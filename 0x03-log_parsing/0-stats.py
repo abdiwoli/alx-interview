@@ -35,7 +35,7 @@ if __name__ == "__main__":
             line_count += 1
         if line_count == 10:
             print(f"File size: {sum(total_size)}")
-            for i in status.keys():
+            for i in sorted(status.keys()):
                 print(f"{i}: {status[i]}")
             status.clear()
             total_size.clear()
