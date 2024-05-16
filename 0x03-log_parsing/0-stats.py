@@ -24,9 +24,9 @@ def is_valid(input_string):
 
 def print_out(total_size, status):
     """ print the output """
-    print(f"File size: {sum(total_size)}")
-    for i in sorted(status.keys()):
-        print(f"{i}: {status[i]}")
+    print("File size: {:d}".format(sum(total_size)))
+    for k, v in sorted(status.items()):
+        print(f"{k}: {v}")
 
 
 if __name__ == "__main__":
@@ -51,5 +51,5 @@ if __name__ == "__main__":
             if line_count > 0:
                 print_out(total_size, status)
     except KeyboardInterrupt:
-        print_out(stats, filesize)
+        print_out(total_size, status)
         raise
