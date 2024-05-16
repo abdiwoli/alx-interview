@@ -22,17 +22,18 @@ def is_valid(input_string):
         return None, None
 
 
-status = dict()
-total_size = []
-for line in sys.stdin:
-    key, size = is_valid(line)
-    if key and size:
-        val = status.get(key, 0)
-        status[key] = val + 1
-        total_size.append(size)
-    if len(total_size) == 10:
-        print(f"File size: {sum(total_size)}")
-        for i in status.keys():
-            print(f"{i}: {status[i]}")
-        status.clear()
-        total_size.clear()
+if __name__ == "__main__":
+    status = dict()
+    total_size = []
+    for line in sys.stdin:
+        key, size = is_valid(line)
+        if key and size:
+            val = status.get(key, 0)
+            status[key] = val + 1
+            total_size.append(size)
+        if len(total_size) == 10:
+            print(f"File size: {sum(total_size)}")
+            for i in status.keys():
+                print(f"{i}: {status[i]}")
+            status.clear()
+            total_size.clear()
