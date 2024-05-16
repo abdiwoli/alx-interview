@@ -20,8 +20,8 @@ def parse_line(line):
 def print_statistics(total_size, status):
     """ Print statistics based on total size and status counts """
     print("Total file size:", sum(total_size))
-    for code in sorted(status.keys()):
-        if code in [200, 301, 400, 401, 403, 404, 405, 500]:
+    for code, v in sorted(status.items()):
+        if code in [200, 301, 400, 401, 403, 404, 405, 500] and v > 0:
             print(f"{code}: {status[code]}")
 
 
