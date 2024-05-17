@@ -8,8 +8,8 @@ from collections import defaultdict
 def is_valid_input(input_string):
     """Checks if a line matches the expected access log format a.
     """
-    pattern = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\S+) (\d+)$"
-    match = re.match(pattern, input_string.strip())
+    pat = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\S+) (\d+)$"
+    match = re.match(pat, input_string.strip())
     status_code = None
     file_size = None
     if match:
@@ -48,8 +48,7 @@ if __name__ == "__main__":
                 print_out(total_size, status)
         if line_count % 10 == 1 or line_count < 10:
             print_out(total_size, status)
-        if line_count == 0:
-            print_out([0], [])
+
     except KeyboardInterrupt:
         print_out(total_size, status)
         raise
