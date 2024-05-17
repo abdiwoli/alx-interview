@@ -8,7 +8,7 @@ from collections import defaultdict
 def is_valid_input(input_string):
     """Checks if a line matches the expected access log format a.
     """
-    pattern = r"^(\S+) - \[.*?\] \"GET /projects/260 HTTP/1.1\" (\d{3}) (\d+)$"
+    pattern = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\d{3}) (\d+)$"
     match = re.match(pattern, input_string.strip())
     if match:
         try:
@@ -40,9 +40,10 @@ if __name__ == "__main__":
                 status[status_code] = status.get(status_code, 0) + 1
             if line_count % 10 == 0:
                 print_out(total_size, status)
-        if line_count % 10 == 1:
+        if line_count % 10 == 1 or line_count < 10:
             print_out(total_size, status)
+        if line_count == 0:
+            print_out([0], [])
     except KeyboardInterrupt:
         print_out(total_size, status)
         raise
-        
