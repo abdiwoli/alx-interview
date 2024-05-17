@@ -31,21 +31,18 @@ if __name__ == "__main__":
     status = dict()
     total_size = []
     line_count = 0
-    remain = False
     try:
         for line in sys.stdin:
             line_count += 1
             is_valid, status_code, file_size = is_valid_input(line)
-            ramain = True
             if is_valid:
                 total_size.append(file_size)
                 status[status_code] = status.get(status_code, 0) + 1
             if line_count % 10 == 0:
                 print_out(total_size, status)
-                remain = False
+        if line_count % 10 == 1:
+            print_out(total_size, status)
     except KeyboardInterrupt:
         print_out(total_size, status)
         raise
-    if remain:
-        print_out(total_size, status)
         
