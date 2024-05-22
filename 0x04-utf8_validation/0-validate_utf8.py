@@ -5,7 +5,8 @@
 def validUTF8(data):
     """ determine utf8 """
     cont_bytes = 0
-
+    if data is None:
+        return False
     for byte in data:
         if cont_bytes == 0:
             if byte >> 5 == 0b110:
