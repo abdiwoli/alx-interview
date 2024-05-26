@@ -8,6 +8,7 @@ def validUTF8(data):
     if data is None:
         return False
     for byte in data:
+        byte = byte & 0xFF
         if cont_bytes == 0:
             if byte >> 5 == 0b110:
                 cont_bytes = 1
