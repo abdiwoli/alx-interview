@@ -5,7 +5,7 @@ from collections import deque
 
 def makeChange(coins, amount):
     """ make change """
-    if amount == 0:
+    if amount is None or amount == 0:
         return 0
     # Queue will store tuples of (current_amount, number_of_coins)
     queue = deque([(0, 0)])
