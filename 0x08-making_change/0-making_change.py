@@ -3,9 +3,9 @@
 
 
 def makeChange(coins, total):
-    """Calculates the minimum number of coins needed to make
-     change for a given total,
-    or -1 if it's impossible.
+    """Calculates the minimum number
+     of coins needed to make change for a given total,
+    or -1 if it's impossible, using a list comprehension with map.
 
     Args:
         coins: A list of coin denominations (positive integers).
@@ -18,13 +18,12 @@ def makeChange(coins, total):
     if total is None or total <= 0:
         return 0
 
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0  # Base case: 0 change requires 0 coins
+    # Create a list of possible change amounts using map
+    possible_changes = [min(dp[i - coin] + 1,
+                            float('inf')) for coin in coins for i in range(1,
+                                                                           total + 1)]
 
-    # Iterate through the DP table, considering each coin denomination
-    for coin in coins:
-        for i in range(coin, total + 1):
-            dp[i] = min(dp[i], dp[i - coin] + 1)
+    # Find the minimum number of coins (filter for finite values)
+    min_coins = min(filter(lambda x: x != float('inf'), possible_changes))
 
-    # Check if the total can be achieved with the given coins
-    return dp[total] if dp[total] != float('inf') else -1
+    return min_coins if min_coins != float('inf') else -1
