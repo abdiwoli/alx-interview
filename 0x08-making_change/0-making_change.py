@@ -1,17 +1,17 @@
-##!/usr/bin/python3
+#!/usr/bin/python3
 """ alx interview """
 
 
-def makeChange(coins, amount):
+def makeChange(coins, total):
     """ make change """
-    if amount is None or amount <= 0:
+    if total is None or total <= 0:
         return 0
-    dp = [float('inf')] * (amount + 1)
+    dp = [float('inf')] * (total + 1)
     dp[0] = 0
 
-    for i in range(1, amount + 1):
+    for i in range(1, total + 1):
         for coin in coins:
             if i - coin >= 0:
                 dp[i] = min(dp[i], dp[i - coin] + 1)
 
-    return dp[amount] if dp[amount] != float('inf') else -1
+    return dp[total] if dp[total] != float('inf') else -1
