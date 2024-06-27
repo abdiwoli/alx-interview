@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+""" 0-island_perimeter.py """
+
+
+def island_perimeter(grid):
+    """ Calculate the perimeter of the island described in grid
+        Return: premeter
+     """
+    if grid is None or len(grid) == 0:
+        return 0
+    rows = len(grid)
+    columns = len(grid[0])
+    perimeter = 0
+    for x in range(rows):
+        for y in range(columns):
+            if grid[x][y] == 1:
+                if x == 0 or grid[x - 1][y] == 0:
+                    perimeter += 1
+                if x == rows - 1 or grid[x + 1][y] == 0:
+                    perimeter += 1
+                if y == 0 or grid[x][y - 1] == 0:
+                    perimeter += 1
+                if y == columns - 1 or grid[x][y + 1] == 0:
+                    perimeter += 1
+    return perimeter
+
+
+if __name__ == "__main__":
+    grid = [
+        [0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+    ]
+    print(island_perimeter(grid))
