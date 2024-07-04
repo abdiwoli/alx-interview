@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" get winner """
+""" get teh winner """
 
 
 def isWinner(x, nums):
@@ -8,7 +8,7 @@ def isWinner(x, nums):
 
     Parameters:
     x (int): The number of rounds.
-    nums (list): A list of integers where each integer
+    nums (list): A list of integers where each integer represents the upper
 
     Returns:
     str: The name of the player who won the most rounds ("Maria" or "Ben").
@@ -32,7 +32,7 @@ def isWinner(x, nums):
 
     def get_primes_up_to(n):
         """
-        Generates a list of all prime numbers up to a given number n
+        Generates a list of all prime numbers up to a given number
 
         Parameters:
         n (int): The upper limit for finding prime numbers.
