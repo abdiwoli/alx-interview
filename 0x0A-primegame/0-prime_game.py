@@ -8,10 +8,10 @@ def isWinner(x, nums):
 
     Parameters:
     x (int): The number of rounds.
-    nums (list): A list of integers where each integer represents the upper...
+    nums (list): A list of integers where each integer
 
     Returns:
-    str: The name of the player who won the most rounds ("Maria" or "Ben")...
+    str: The name of the player who won the most rounds ("Maria" or "Ben").
     """
     def is_prime(num):
         """
@@ -58,26 +58,18 @@ def isWinner(x, nums):
         Returns:
         str: The name of the player who wins the game ("Maria" or "Ben").
         """
+        if n < 2:
+            return "Ben"
+
         primes = get_primes_up_to(n)
         primes_set = set(primes)
         turn = 0  # Maria's turn
         while primes_set:
-            if turn % 2 == 0:  # Maria's turn
-                if primes:
-                    prime = primes.pop(0)
-                    multiples = {prime * i for i in range(1, n // prime + 1)}
-                    primes_set -= multiples
-                else:
-                    return "Ben"
-            else:  # Ben's turn
-                if primes:
-                    prime = primes.pop(0)
-                    multiples = {prime * i for i in range(1, n // prime + 1)}
-                    primes_set -= multiples
-                else:
-                    return "Maria"
+            prime = min(primes_set)
+            multiples = {prime * i for i in range(1, n // prime + 1)}
+            primes_set -= multiples
             turn += 1
-        return "Ben" if turn % 2 == 0 else "Maria"
+        return "Maria" if turn % 2 == 1 else "Ben"
 
     maria_wins = 0
     ben_wins = 0
