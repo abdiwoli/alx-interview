@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" get teh winner """
+""" get the winner """
 
 
 def isWinner(x, nums):
@@ -9,74 +9,33 @@ def isWinner(x, nums):
     Parameters:
     x (int): The number of rounds.
     nums (list): A list of integers where each integer represents the upper
+                 limit for that round.
 
     Returns:
     str: The name of the player who won the most rounds ("Maria" or "Ben").
     """
-    def is_prime(num):
-        """
-        Checks if a given number is prime.
+    if x <= 0 or not nums:
+        return None
 
-        Parameters:
-        num (int): The number to check for primality.
+    max_num = max(nums)
+    sieve = [True] * (max_num + 1)
+    sieve[0] = sieve[1] = False  # 0 and 1 are not prime numbers
 
-        Returns:
-        bool: True if the number is prime, False otherwise.
-        """
-        if num < 2:
-            return False
-        for i in range(2, int(num**0.5) + 1):
-            if num % i == 0:
-                return False
-        return True
+    # Generate sieve of Eratosthenes for prime numbers
+    for i in range(2, int(max_num**0.5) + 1):
+        if sieve[i]:
+            for multiple in range(i * i, max_num + 1, i):
+                sieve[multiple] = False
 
-    def get_primes_up_to(n):
-        """
-        Generates a list of all prime numbers up to a given number
-
-        Parameters:
-        n (int): The upper limit for finding prime numbers.
-
-        Returns:
-        list: A list of prime numbers up to and including n.
-        """
-        sieve = [True] * (n + 1)
-        sieve[0] = sieve[1] = False  # 0 and 1 are not prime numbers
-        for start in range(2, int(n**0.5) + 1):
-            if sieve[start]:
-                for multiple in range(start * start, n + 1, start):
-                    sieve[multiple] = False
-        return [num for num, is_prime in enumerate(sieve) if is_prime]
-
-    def play_game(n):
-        """
-        Simulates a round of the prime number game and determines the winner.
-
-        Parameters:
-        n (int): The upper limit of the set of consecutive integers
-
-        Returns:
-        str: The name of the player who wins the game ("Maria" or "Ben").
-        """
-        if n < 2:
-            return "Ben"
-
-        primes = get_primes_up_to(n)
-        primes_set = set(primes)
-        turn = 0  # Maria's turn
-        while primes_set:
-            prime = min(primes_set)
-            multiples = {prime * i for i in range(1, n // prime + 1)}
-            primes_set -= multiples
-            turn += 1
-        return "Maria" if turn % 2 == 1 else "Ben"
+    primes_count = [0] * (max_num + 1)
+    for i in range(1, max_num + 1):
+        primes_count[i] = primes_count[i - 1] + (1 if sieve[i] else 0)
 
     maria_wins = 0
     ben_wins = 0
 
     for n in nums:
-        winner = play_game(n)
-        if winner == "Maria":
+        if primes_count[n] % 2 == 1:
             maria_wins += 1
         else:
             ben_wins += 1
@@ -87,3 +46,12 @@ def isWinner(x, nums):
         return "Ben"
     else:
         return None
+
+
+# Test cases
+if __name__ == "__main__":
+    nums = [0] * 10000
+    for i in range(10000):
+        nums[i] = i
+
+    print("Winner: {}".format(isWinner(10000, nums)))
