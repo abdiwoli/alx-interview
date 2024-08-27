@@ -1,40 +1,49 @@
 #!/usr/bin/python3
-""" import module """
+"""Import module"""
+import sys
 import re
 from collections import defaultdict
 
-# Example log entries
-log_entries = [
-    '32.34.224.134 - [2017-02-05 23:30:47.190577] "GET /projects/260 HTTP/1.1" 200 939',
-    '42.129.219.34 - [2017-02-05 23:30:47.694304] "GET /projects/260 HTTP/1.1" 400 894',
-    # Add more log entries here...
-]
-
-def parse_log_entry(log_entry):
-    pattern = r'(?P<ip>\S+) - \[(?P<timestamp>.*?)\] "(?P<request>.*?)" (?P<status_code>\d+) (?P<response_size>\d+)'
-    match = re.match(pattern, log_entry)
+def is_valid_input(input_string):
+    """Checks if a line matches the expected access log format"""
+    pat = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\d+) (\d+)$"
+    match = re.match(pat, input_string.strip())
+    status_code = None
+    file_size = None
     if match:
-        return match.groupdict()
-    else:
-        return None
+        try:
+            status_code = int(match.group(2))
+        except ValueError:
+            pass
+        try:
+            file_size = int(match.group(3))
+        except ValueError:
+            pass
+    return status_code, file_size
 
-def analyze_logs(log_entries):
-    status_code_counts = defaultdict(int)
-    for entry in log_entries:
-        parsed_entry = parse_log_entry(entry)
-        if parsed_entry:
-            status_code = parsed_entry['status_code']
-            status_code_counts[status_code] += 1
-    
-    return status_code_counts
+def print_out(total_size, status):
+    """Prints the calculated statistics"""
+    print(f"File size: {sum(total_size)}")
+    for code, count in sorted(status.items()):
+        print(f"{code}: {count}")
 
-# Analyze the logs
-result = analyze_logs(log_entries)
-for status_code, count in result.items():
-    print(f'Status Code {status_code}: {count} requests')
-
-# To handle invalid status codes, you can add extra validation
-valid_status_codes = {'200', '400', '500', '404', '403', '301', '405'}
-for status_code in list(result.keys()):
-    if status_code not in valid_status_codes:
-        print(f'Invalid status code found: {status_code}')
+if __name__ == "__main__":
+    status = defaultdict(int)
+    total_size = []
+    line_count = 0
+    try:
+        for line in sys.stdin:
+            line_count += 1
+            status_code, file_size = is_valid_input(line)
+            if status_code and file_size:
+                total_size.append(file_size)
+                status[status_code] += 1
+            elif file_size:
+                total_size.append(file_size)
+            if line_count % 10 == 0:
+                print_out(total_size, status)
+        if line_count % 10 != 0:
+            print_out(total_size, status)
+    except KeyboardInterrupt:
+        print_out(total_size, status)
+        raise
