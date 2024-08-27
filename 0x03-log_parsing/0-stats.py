@@ -36,20 +36,19 @@ if __name__ == "__main__":
     status = defaultdict(int)
     total_size = []
     line_count = 0
-    try:
-        for line in sys.stdin:
-            line_count += 1
-            status_code, file_size = is_valid_input(line)
-            if status_code and file_size:
-                total_size.append(file_size)
-                status[status_code] += 1
-            elif file_size:
-                total_size.append(file_size)
-            if line_count % 10 == 0:
-                print_out(total_size, status)
-        # Print remaining output if file is not empty
-        if line_count % 10 != 0:
+
+    for line in sys.stdin:
+        line_count += 1
+        status_code, file_size = is_valid_input(line)
+        if status_code and file_size:
+            total_size.append(file_size)
+            status[status_code] += 1
+        elif file_size:
+            total_size.append(file_size)
+
+        if line_count % 10 == 0:
             print_out(total_size, status)
-    except KeyboardInterrupt:
+
+    # Print remaining output if file is not empty
+    if line_count % 10 != 0:
         print_out(total_size, status)
-        raise
