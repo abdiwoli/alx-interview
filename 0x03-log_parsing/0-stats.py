@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""Import module"""
+""" import module """
 import sys
 import re
 from collections import defaultdict
 
 def is_valid_input(input_string):
-    """Checks if a line matches the expected access log format"""
-    pat = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\d+) (\d+)$"
+    """Checks if a line matches the expected access log format."""
+    pat = r"^(\S+)\s*-\s*\[.*?\] \"GET /projects/260 HTTP/1.1\" (\S+) (\d+)$"
     match = re.match(pat, input_string.strip())
     status_code = None
     file_size = None
@@ -14,15 +14,15 @@ def is_valid_input(input_string):
         try:
             status_code = int(match.group(2))
         except ValueError:
-            pass
+            status_code = None
         try:
             file_size = int(match.group(3))
         except ValueError:
-            pass
+            file_size = None
     return status_code, file_size
 
 def print_out(total_size, status):
-    """Prints the calculated statistics"""
+    """Prints the calculated statistics."""
     print(f"File size: {sum(total_size)}")
     for code, count in sorted(status.items()):
         print(f"{code}: {count}")
